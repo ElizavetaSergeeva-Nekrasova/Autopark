@@ -2,7 +2,7 @@ public class VehicleType {
     String typeName;
     double taxCoefficient;
 
-    public VehicleType (String typeName, double taxCoefficient) {
+    public VehicleType(String typeName, double taxCoefficient) {
         this.typeName = typeName;
         this.taxCoefficient = taxCoefficient;
     }
@@ -18,11 +18,11 @@ public class VehicleType {
         return taxCoefficient;
     }
 
-    public void setTypeName (String typeName) {
+    public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
 
-    public void setTaxCoefficient (double taxCoefficient) {
+    public void setTaxCoefficient(double taxCoefficient) {
         this.taxCoefficient = taxCoefficient;
     }
 

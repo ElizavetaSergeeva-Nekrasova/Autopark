@@ -1,8 +1,8 @@
 public class Main {
-    static double max;
-    static double sum;
-    static double average;
-    static int vehicleTypesCount;
+    private static double max;
+    private static double sum;
+    private static double average;
+    private static int vehicleTypesCount;
 
     public static void main(String[] args) {
         VehicleType[] vehicleTypes = createArray();

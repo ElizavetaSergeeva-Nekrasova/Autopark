@@ -1,6 +1,6 @@
 public class VehicleType {
-    String typeName;
-    double taxCoefficient;
+    private String typeName;
+    private double taxCoefficient;
 
     public VehicleType(String typeName, double taxCoefficient) {
         this.typeName = typeName;

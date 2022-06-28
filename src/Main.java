@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         VehicleType[] vehicleTypes = createArray();
 
-        max = vehicleTypes[0].taxCoefficient;
+        max = vehicleTypes[0].getTaxCoefficient();
         sum = 0.0d;
         vehicleTypesCount = 0;
         average = 0.0d;
@@ -16,13 +16,13 @@ public class Main {
                 vehicleTypes) {
             vehicleType.display();
 
-            if (vehicleType.taxCoefficient > max) {
-                max = vehicleType.taxCoefficient;
+            if (vehicleType.getTaxCoefficient() > max) {
+                max = vehicleType.getTaxCoefficient();
             }
 
             vehicleTypesCount++;
 
-            sum += vehicleType.taxCoefficient;
+            sum += vehicleType.getTaxCoefficient();
         }
 
         average = countAverage();

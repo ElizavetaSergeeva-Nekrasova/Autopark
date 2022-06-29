@@ -3,14 +3,31 @@ public class Main {
     private static double sum;
     private static double average;
     private static int vehicleTypesCount;
+    private static VehicleType[] vehicleTypes;
 
     public static void main(String[] args) {
-        VehicleType[] vehicleTypes = createArray();
+        vehicleTypes = createArray();
 
+        displayAndCountMaxAndCountAverage();
+        showMax();
+        showAverage();
+
+        vehicleTypes[vehicleTypes.length - 1].setTaxCoefficient(1.3d);
+    }
+
+    private static VehicleType[] createArray() {
+        VehicleType[] vehicleTypes = {
+                new VehicleType("Bus", 1.2d)
+                , new VehicleType("Car", 1.0d)
+                , new VehicleType("Rink", 1.5d)
+                , new VehicleType("Tractor", 1.2d)
+        };
+
+        return vehicleTypes;
+    }
+
+    private static void displayAndCountMaxAndCountAverage() {
         max = vehicleTypes[0].getTaxCoefficient();
-        sum = 0.0d;
-        vehicleTypesCount = 0;
-        average = 0.0d;
 
         for (VehicleType vehicleType:
                 vehicleTypes) {
@@ -26,22 +43,6 @@ public class Main {
         }
 
         average = countAverage();
-
-        showMax();
-        showAverage();
-
-        vehicleTypes[vehicleTypes.length - 1].setTaxCoefficient(1.3d);
-    }
-
-    private static VehicleType[] createArray() {
-        VehicleType[] vehicleTypes = {
-                new VehicleType("Bus", 1.2d)
-                , new VehicleType("Car", 1d)
-                , new VehicleType("Rink", 1.5d)
-                , new VehicleType("Tractor", 1.2d)
-        };
-
-        return vehicleTypes;
     }
 
     private static void showMax() {

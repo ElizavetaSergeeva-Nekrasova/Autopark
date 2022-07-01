@@ -2,15 +2,6 @@ public class Main {
     static VehicleType[] vehicleTypes;
     static Vehicle[] vehicles;
 
-    private static class VehicleUtils {
-        private static void showVehicleArray() {
-            for (Vehicle vehicle:
-                    vehicles) {
-                System.out.println(vehicle);
-            }
-        }
-    }
-
     public static void main(String[] args) {
         vehicleTypes = createVehicleTypeArray();
         vehicleTypes[vehicleTypes.length - 1].setTaxCoefficient(1.3d);
@@ -23,6 +14,15 @@ public class Main {
         VehicleUtils.showVehicleArray();
         showVehicleWithMaxMileage();
         showVehicleWithMinMileage();
+    }
+
+    private static class VehicleUtils {
+        private static void showVehicleArray() {
+            for (Vehicle vehicle:
+                    vehicles) {
+                System.out.println(vehicle);
+            }
+        }
     }
 
     private static VehicleType[] createVehicleTypeArray() {

@@ -35,7 +35,8 @@ public class TechnicalSpecialist {
     }
 
     static public boolean validateVehicleType(VehicleType vehicleType) {
-        if (vehicleType.getTaxCoefficient() >= 0.0d
+        if (vehicleType != null
+                && vehicleType.getTaxCoefficient() >= 0.0d
                 && vehicleType.getTypeName() != ""
                 && vehicleType.getTypeName() != null) {
             return true;

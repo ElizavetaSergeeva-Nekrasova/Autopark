@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Vehicle implements Comparable <Vehicle>{
+public class Vehicle implements Comparable<Vehicle> {
     private VehicleType vehicleType;
     private String model;
     private String stateNumber;
@@ -13,13 +13,13 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public Vehicle(VehicleType vehicleType, String model, String stateNumber, double weight, int year, int mileage, Color color) {
-        this.vehicleType = vehicleType;
-        this.model = model;
-        this.stateNumber = stateNumber;
-        this.weight = weight;
-        this.year = year;
-        this.mileage = mileage;
-        this.color = color;
+        setVehicleType(vehicleType);
+        setModel(model);
+        setStateNumber(stateNumber);
+        setWeight(weight);
+        setYear(year);
+        setMileage(mileage);
+        setColor(color);
     }
 
     public VehicleType getVehicleType() {
@@ -27,7 +27,11 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public void setVehicleType(VehicleType vehicleType) {
-        this.vehicleType = vehicleType;
+        if (TechnicalSpecialist.validateVehicleType(vehicleType)) {
+            this.vehicleType = vehicleType;
+        } else {
+            this.vehicleType = getDefaultVehicleType();
+        }
     }
 
     public String getModel() {
@@ -35,7 +39,11 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public void setModel(String model) {
-        this.model = model;
+        if (TechnicalSpecialist.validateModelName(model)) {
+            this.model = model;
+        } else {
+            this.model = "unknown";
+        }
     }
 
     public String getStateNumber() {
@@ -43,7 +51,11 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public void setStateNumber(String stateNumber) {
-        this.stateNumber = stateNumber;
+        if (TechnicalSpecialist.validateRegistrationNumber(stateNumber)) {
+            this.stateNumber = stateNumber;
+        } else {
+            this.stateNumber = "unknown";
+        }
     }
 
     public double getWeight() {
@@ -51,7 +63,11 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public void setWeight(double weight) {
-        this.weight = weight;
+        if (TechnicalSpecialist.validateWeight(weight)) {
+            this.weight = weight;
+        } else {
+            this.weight = 0.0d;
+        }
     }
 
     public int getYear() {
@@ -59,7 +75,11 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public void setYear(int year) {
-        this.year = year;
+        if (TechnicalSpecialist.validateManufactureYear(year)) {
+            this.year = year;
+        } else {
+            this.year = 9999;
+        }
     }
 
     public int getMileage() {
@@ -67,7 +87,11 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public void setMileage(int mileage) {
-        this.mileage = mileage;
+        if (TechnicalSpecialist.validateMileage(mileage)) {
+            this.mileage = mileage;
+        } else {
+            this.mileage = 0;
+        }
     }
 
     public Color getColor() {
@@ -75,7 +99,11 @@ public class Vehicle implements Comparable <Vehicle>{
     }
 
     public void setColor(Color color) {
-        this.color = color;
+        if (TechnicalSpecialist.validateColor(color)) {
+            this.color = color;
+        } else {
+            this.color = Color.White;
+        }
     }
 
     public double getCalcTaxPerMonth() {
@@ -114,9 +142,12 @@ public class Vehicle implements Comparable <Vehicle>{
     public int compareTo(Vehicle o) {
         if (this.year != o.year) {
             return this.year - o.year;
-        }
-        else {
+        } else {
             return this.mileage - o.mileage;
         }
+    }
+
+    private static VehicleType getDefaultVehicleType() {
+        return new VehicleType("Unknown", 1d);
     }
 }

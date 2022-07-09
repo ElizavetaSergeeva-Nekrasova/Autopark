@@ -1,15 +1,17 @@
 public class Main {
-    static VehicleType[] vehicleTypes;
-    static Vehicle[] vehicles;
+    private static VehicleType[] vehicleTypes;
+    private static Vehicle[] vehicles;
 
     public static void main(String[] args) {
         vehicleTypes = createVehicleTypeArray();
         vehicleTypes[vehicleTypes.length - 1].setTaxCoefficient(1.3d);
         vehicles = createVehicleArray();
 
-        //VehicleUtils.showVehicleArray();
+        VehicleUtils.showVehicleArray();
 
         showIdenticalVehicles();
+
+        showVehicleWithMaxKilometers();
 
     }
 
@@ -91,5 +93,18 @@ public class Main {
         for (int j = i - counter - 1; j < i; j++) {
             System.out.println(vehicles[j]);
         }
+    }
+
+    private static void showVehicleWithMaxKilometers() {
+        Vehicle vehicleWithMaxKilometers = vehicles[0];
+
+        for (Vehicle vehicle:
+                vehicles) {
+            if (vehicle.getEngine().getMaxKilometers() > vehicleWithMaxKilometers.getEngine().getMaxKilometers()) {
+                vehicleWithMaxKilometers = vehicle;
+            }
+        }
+
+        System.out.println("Vehicle with max kilometers: " + vehicleWithMaxKilometers);
     }
 }

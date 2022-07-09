@@ -1,7 +1,7 @@
 public class CombustionEngine extends AbstractEngine{
-    double engineCapacity;
-    double fuelTankCapacity;
-    double fuelConsumptionPer100;
+    private double engineCapacity;
+    private double fuelTankCapacity;
+    private double fuelConsumptionPer100;
 
     public CombustionEngine(String typeName, double taxByEngineType, double engineCapacity, double fuelConsumptionPer100, double fuelTankCapacity) {
         super(typeName, taxByEngineType);

@@ -8,11 +8,13 @@ public class Vehicle implements Comparable<Vehicle> {
     private int year;
     private int mileage;
     private Color color;
+    private Startable engine;
 
     public Vehicle() {
     }
 
-    public Vehicle(VehicleType vehicleType, String model, String stateNumber, double weight, int year, int mileage, Color color) {
+    public Vehicle(VehicleType vehicleType, String model, String stateNumber,
+                   double weight, int year, int mileage, Color color, Startable engine) {
         setVehicleType(vehicleType);
         setModel(model);
         setStateNumber(stateNumber);
@@ -20,6 +22,7 @@ public class Vehicle implements Comparable<Vehicle> {
         setYear(year);
         setMileage(mileage);
         setColor(color);
+        setEngine(engine);
     }
 
     public VehicleType getVehicleType() {
@@ -106,23 +109,31 @@ public class Vehicle implements Comparable<Vehicle> {
         }
     }
 
+    public Startable getEngine() {
+        return engine;
+    }
+
+    public void setEngine(Startable engine) {
+        this.engine = engine;
+    }
+
     public double getCalcTaxPerMonth() {
-        double taxPerMonth = (this.weight * 0.0013) + (this.vehicleType.getTaxCoefficient() * 30) + 5;
+        double taxPerMonth = (this.weight * 0.0013) + (this.vehicleType.getTaxCoefficient() * this.engine.getTaxPerMonth() * 30) + 5;
 
         return taxPerMonth;
     }
 
     @Override
     public String toString() {
-        return vehicleType.getString() +
-                ", " + model +
-                ", " + stateNumber +
-                ", " + weight +
-                ", " + year +
-                ", " + mileage +
-                ", " + color +
-                ", " + this.getCalcTaxPerMonth()
-                ;
+        return vehicleType.getString() + ", "
+                + model + ", "
+                + stateNumber + ", "
+                + weight + ", "
+                + year + ", "
+                + mileage + ", "
+                + color + ", "
+                + this.getCalcTaxPerMonth() + ", "
+                + engine.toString();
     }
 
     @Override

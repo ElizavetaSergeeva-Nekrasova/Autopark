@@ -7,13 +7,10 @@ public class Main {
         vehicleTypes[vehicleTypes.length - 1].setTaxCoefficient(1.3d);
         vehicles = createVehicleArray();
 
-        VehicleUtils.showVehicleArray();
+        //VehicleUtils.showVehicleArray();
 
-        selectionSort();
+        showIdenticalVehicles();
 
-        VehicleUtils.showVehicleArray();
-        showVehicleWithMaxMileage();
-        showVehicleWithMinMileage();
     }
 
     private static class VehicleUtils {
@@ -38,13 +35,13 @@ public class Main {
 
     private static Vehicle[] createVehicleArray() {
         Vehicle[] vehicles = {
-                new Vehicle(vehicleTypes[0], "Volkswagen Crafter", "5427 AX-7", 2022, 2015, 376000, Color.Blue)
-                , new Vehicle(vehicleTypes[0], "Volkswagen Crafter", "6427 AA-7", 2500, 2014, 227010, Color.White)
-                , new Vehicle(vehicleTypes[0], "Electric Bus E321", "6785 BA-7", 12080, 2019, 20451, Color.Green)
-                , new Vehicle(vehicleTypes[1], "Golf 5", "8682 AX-7", 1200, 2006, 230451, Color.Gray)
-                , new Vehicle(vehicleTypes[1], "Tesla Model S 70D", "0001 AA-7", 2200, 2019, 10454, Color.White)
-                , new Vehicle(vehicleTypes[2], "Hamm HD 12 VV", "null", 3000, 2016, 122, Color.Yellow)
-                , new Vehicle(vehicleTypes[3], "МТЗ Беларус-1025.4", "1145 AB-7", 1200, 2020, 109, Color.Red)
+                new Vehicle(vehicleTypes[0], "Volkswagen Crafter", "5427 AX-7", 2022, 2015, 376000, Color.Blue, new GasolineEngine(2, 8.1, 75))
+                , new Vehicle(vehicleTypes[0], "Volkswagen Crafter", "6427 AA-7", 2500, 2014, 227010, Color.White, new GasolineEngine(2.18, 8.5, 75))
+                , new Vehicle(vehicleTypes[0], "Electric Bus E321", "6785 BA-7", 12080, 2019, 20451, Color.Green, new ElectricalEngine(50, 150))
+                , new Vehicle(vehicleTypes[1], "Golf 5", "8682 AX-7", 1200, 2006, 230451, Color.Gray, new DieselEngine(1.6, 7.2, 55))
+                , new Vehicle(vehicleTypes[1], "Tesla Model S 70D", "0001 AA-7", 2200, 2019, 10454, Color.White, new ElectricalEngine(25, 70))
+                , new Vehicle(vehicleTypes[2], "Hamm HD 12 VV", "null", 3000, 2016, 122, Color.Yellow, new DieselEngine(3.2, 25, 20))
+                , new Vehicle(vehicleTypes[3], "МТЗ Беларус-1025.4", "1145 AB-7", 1200, 2020, 109, Color.Red, new DieselEngine(4.75, 20.1, 135))
         };
 
         return vehicles;
@@ -69,29 +66,30 @@ public class Main {
         }
     }
 
-    private static void showVehicleWithMinMileage() {
-        Vehicle vehicleWithMinMileage = vehicles[0];
+    private static void showIdenticalVehicles() {
+        selectionSort();
 
-        for (Vehicle vehicle:
-                vehicles) {
-            if (vehicle.getMileage() < vehicleWithMinMileage.getMileage()) {
-                vehicleWithMinMileage = vehicle;
+        int counter = 0;
+        for (int i = 1; i < vehicles.length; i++) {
+            if (vehicles[i].equals(vehicles[i - 1])) {
+                counter++;
+                if ((i + 1) == vehicles.length) {
+                    showArrayFragment(i + 1, counter);
+                    counter = 0;
+                }
+            } else {
+                if (counter > 0) {
+                    showArrayFragment(i, counter);
+                    counter = 0;
+                }
             }
         }
-
-        System.out.println("Vehicle with min mileage: " + vehicleWithMinMileage);
     }
 
-    private static void showVehicleWithMaxMileage() {
-        Vehicle vehicleWithMaxMileage = vehicles[0];
-
-        for (Vehicle vehicle:
-                vehicles) {
-            if (vehicle.getMileage() > vehicleWithMaxMileage.getMileage()) {
-                vehicleWithMaxMileage = vehicle;
-            }
+    private static void showArrayFragment(int i, int counter) {
+        System.out.println("Identical vehicles: ");
+        for (int j = i - counter - 1; j < i; j++) {
+            System.out.println(vehicles[j]);
         }
-
-        System.out.println("Vehicle with max mileage: " + vehicleWithMaxMileage);
     }
 }

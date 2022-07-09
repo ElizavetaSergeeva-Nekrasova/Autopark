@@ -17,7 +17,7 @@ public class Main {
 
     private static class VehicleUtils {
         private static void showVehicleArray() {
-            for (Vehicle vehicle:
+            for (Vehicle vehicle :
                     vehicles) {
                 System.out.println(vehicle);
             }
@@ -98,7 +98,7 @@ public class Main {
     private static void showVehicleWithMaxKilometers() {
         Vehicle vehicleWithMaxKilometers = vehicles[0];
 
-        for (Vehicle vehicle:
+        for (Vehicle vehicle :
                 vehicles) {
             if (vehicle.getEngine().getMaxKilometers() > vehicleWithMaxKilometers.getEngine().getMaxKilometers()) {
                 vehicleWithMaxKilometers = vehicle;

@@ -34,4 +34,14 @@ public class TechnicalSpecialist {
     static public boolean validateModelName(String name) {
         return name != null && !name.isEmpty();
     }
+
+    static public boolean validateEngineCapacity(double engineCapacity) {return engineCapacity > 0;}
+
+    static public boolean validateFuelConsumptionPer100(double fuelConsumptionPer100) {return fuelConsumptionPer100 > 0;}
+
+    static public boolean validateFuelTankCapacity(double fuelTankCapacity) {return fuelTankCapacity > 0;}
+
+    static public boolean validateBatteryCharge(double batteryCharge){return batteryCharge > 0;}
+
+    static public boolean validateElectricityConsumptionPerKilometer(double electricityConsumptionPerKilometer){return electricityConsumptionPerKilometer > 0;}
 }

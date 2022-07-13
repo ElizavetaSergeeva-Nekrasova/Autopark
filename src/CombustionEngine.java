@@ -5,9 +5,25 @@ public class CombustionEngine extends AbstractEngine{
 
     public CombustionEngine(String typeName, double taxByEngineType, double engineCapacity, double fuelConsumptionPer100, double fuelTankCapacity) {
         super(typeName, taxByEngineType);
-        this.engineCapacity = engineCapacity;
-        this.fuelTankCapacity = fuelTankCapacity;
-        this.fuelConsumptionPer100 = fuelConsumptionPer100;
+        try {
+            if (TechnicalSpecialist.validateEngineCapacity(engineCapacity)) {
+                this.engineCapacity = engineCapacity;
+            } else {
+                throw new NotVehicleException("Wrong engine capacity: " + engineCapacity);
+            }
+            if (TechnicalSpecialist.validateFuelTankCapacity(fuelTankCapacity)) {
+                this.fuelTankCapacity = fuelTankCapacity;
+            } else {
+                throw new NotVehicleException("Wrong fuel tank capacity: " + fuelTankCapacity);
+            }
+            if (TechnicalSpecialist.validateFuelConsumptionPer100(fuelConsumptionPer100)) {
+                this.fuelConsumptionPer100 = fuelConsumptionPer100;
+            } else {
+                throw new NotVehicleException("Wrong fuel consumption per 100:  " + fuelConsumptionPer100);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
+        }
     }
 
     public double getEngineCapacity() {
@@ -15,7 +31,15 @@ public class CombustionEngine extends AbstractEngine{
     }
 
     public void setEngineCapacity(double engineCapacity) {
-        this.engineCapacity = engineCapacity;
+        try {
+            if (TechnicalSpecialist.validateEngineCapacity(engineCapacity)) {
+                this.engineCapacity = engineCapacity;
+            } else {
+                throw new NotVehicleException("Wrong engine capacity: " + engineCapacity);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
+        }
     }
 
     public double getFuelTankCapacity() {
@@ -23,7 +47,15 @@ public class CombustionEngine extends AbstractEngine{
     }
 
     public void setFuelTankCapacity(double fuelTankCapacity) {
-        this.fuelTankCapacity = fuelTankCapacity;
+        try {
+            if (TechnicalSpecialist.validateFuelTankCapacity(fuelTankCapacity)) {
+                this.fuelTankCapacity = fuelTankCapacity;
+            } else {
+                throw new NotVehicleException("Wrong fuel tank capacity: " + fuelTankCapacity);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
+        }
     }
 
     public double getFuelConsumptionPer100() {
@@ -31,7 +63,15 @@ public class CombustionEngine extends AbstractEngine{
     }
 
     public void setFuelConsumptionPer100(double fuelConsumptionPer100) {
-        this.fuelConsumptionPer100 = fuelConsumptionPer100;
+        try {
+            if (TechnicalSpecialist.validateFuelConsumptionPer100(fuelConsumptionPer100)) {
+                this.fuelConsumptionPer100 = fuelConsumptionPer100;
+            } else {
+                throw new NotVehicleException("Wrong fuel consumption per 100:  " + fuelConsumptionPer100);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

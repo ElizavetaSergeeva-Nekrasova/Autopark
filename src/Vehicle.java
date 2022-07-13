@@ -15,14 +15,46 @@ public class Vehicle implements Comparable<Vehicle> {
 
     public Vehicle(VehicleType vehicleType, String model, String stateNumber,
                    double weight, int year, int mileage, Color color, Startable engine) {
-        setVehicleType(vehicleType);
-        setModel(model);
-        setStateNumber(stateNumber);
-        setWeight(weight);
-        setYear(year);
-        setMileage(mileage);
-        setColor(color);
-        setEngine(engine);
+        try {
+            if (TechnicalSpecialist.validateVehicleType(vehicleType)) {
+                this.vehicleType = vehicleType;
+            } else {
+                throw new NotVehicleException("Wrong vehicle type: " + vehicleType);
+            }
+            if (TechnicalSpecialist.validateModelName(model)) {
+                this.model = model;
+            } else {
+                throw new NotVehicleException("Wrong model" + model);
+            }
+            if (TechnicalSpecialist.validateRegistrationNumber(stateNumber)) {
+                this.stateNumber = stateNumber;
+            } else {
+                throw new NotVehicleException("Wrong state number: " + stateNumber);
+            }
+            if (TechnicalSpecialist.validateWeight(weight)) {
+                this.weight = weight;
+            } else {
+                throw new NotVehicleException("Wrong weight: " + weight);
+            }
+            if (TechnicalSpecialist.validateManufactureYear(year)) {
+                this.year = year;
+            } else {
+                throw  new NotVehicleException("Wrong year: " + year);
+            }
+            if (TechnicalSpecialist.validateMileage(mileage)) {
+                this.mileage = mileage;
+            } else {
+                throw new NotVehicleException("Wrong mileage: " + mileage);
+            }
+            if (TechnicalSpecialist.validateColor(color)) {
+                this.color = color;
+            } else {
+                throw new NotVehicleException("Wrong color" + color);
+            }
+
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
+        }
     }
 
     public VehicleType getVehicleType() {
@@ -30,10 +62,14 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public void setVehicleType(VehicleType vehicleType) {
-        if (TechnicalSpecialist.validateVehicleType(vehicleType)) {
-            this.vehicleType = vehicleType;
-        } else {
-            this.vehicleType = getDefaultVehicleType();
+        try {
+            if (TechnicalSpecialist.validateVehicleType(vehicleType)) {
+                this.vehicleType = vehicleType;
+            } else {
+                throw new NotVehicleException("Wrong vehicle type: " + vehicleType);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
         }
     }
 
@@ -42,10 +78,14 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public void setModel(String model) {
-        if (TechnicalSpecialist.validateModelName(model)) {
-            this.model = model;
-        } else {
-            this.model = "unknown";
+        try {
+            if (TechnicalSpecialist.validateModelName(model)) {
+                this.model = model;
+            } else {
+                throw new NotVehicleException("Wrong model" + model);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
         }
     }
 
@@ -54,10 +94,14 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public void setStateNumber(String stateNumber) {
-        if (TechnicalSpecialist.validateRegistrationNumber(stateNumber)) {
-            this.stateNumber = stateNumber;
-        } else {
-            this.stateNumber = "unknown";
+        try {
+            if (TechnicalSpecialist.validateRegistrationNumber(stateNumber)) {
+                this.stateNumber = stateNumber;
+            } else {
+                throw new NotVehicleException("Wrong state number: " + stateNumber);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
         }
     }
 
@@ -66,10 +110,14 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public void setWeight(double weight) {
-        if (TechnicalSpecialist.validateWeight(weight)) {
-            this.weight = weight;
-        } else {
-            this.weight = 0.0d;
+        try {
+            if (TechnicalSpecialist.validateWeight(weight)) {
+                this.weight = weight;
+            } else {
+                throw new NotVehicleException("Wrong weight: " + weight);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
         }
     }
 
@@ -78,10 +126,14 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public void setYear(int year) {
-        if (TechnicalSpecialist.validateManufactureYear(year)) {
-            this.year = year;
-        } else {
-            this.year = 9999;
+        try {
+            if (TechnicalSpecialist.validateManufactureYear(year)) {
+                this.year = year;
+            } else {
+                throw  new NotVehicleException("Wrong year: " + year);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
         }
     }
 
@@ -90,10 +142,14 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public void setMileage(int mileage) {
-        if (TechnicalSpecialist.validateMileage(mileage)) {
-            this.mileage = mileage;
-        } else {
-            this.mileage = 0;
+        try {
+            if (TechnicalSpecialist.validateMileage(mileage)) {
+                this.mileage = mileage;
+            } else {
+                throw new NotVehicleException("Wrong mileage: " + mileage);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
         }
     }
 
@@ -102,10 +158,14 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public void setColor(Color color) {
-        if (TechnicalSpecialist.validateColor(color)) {
-            this.color = color;
-        } else {
-            this.color = Color.White;
+        try {
+            if (TechnicalSpecialist.validateColor(color)) {
+                this.color = color;
+            } else {
+                throw new NotVehicleException("Wrong color" + color);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
         }
     }
 

@@ -20,6 +20,7 @@ public class Vehicle implements Comparable<Vehicle> {
                    double weight, int year, int mileage, Color color, Startable engine) {
         this.rentList = rentList;
         this.id = id;
+        this.engine = engine;
         try {
             if (TechnicalSpecialist.validateVehicleType(vehicleType)) {
                 this.vehicleType = vehicleType;

@@ -5,9 +5,9 @@ public class Main {
     public static void main(String[] args) {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
 
-//        for (int i = 0; i < vehicleCollection.vehicleList.size(); i++) {
-//            System.out.println(vehicleCollection.vehicleList.get(i).getEngine());
-//        }
+        for (int i = 0; i < vehicleCollection.vehicleList.size(); i++) {
+            System.out.println(vehicleCollection.vehicleList.get(i).getEngine());
+        }
     }
 
     private static class VehicleUtils {

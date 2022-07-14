@@ -145,8 +145,6 @@ public class VehicleCollection {
                 createEngine(fields)
         );
 
-        System.out.println(vehicle.getEngine());
-
         return vehicle;
     }
 

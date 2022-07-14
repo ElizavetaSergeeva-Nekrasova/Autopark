@@ -1,15 +1,25 @@
 import java.util.Objects;
 
 public class VehicleType {
+    private int id;
     private String typeName;
     private double taxCoefficient;
 
-    public VehicleType(String typeName, double taxCoefficient) {
+    public VehicleType(int id, String typeName, double taxCoefficient) {
+        this.id = id;
         this.typeName = typeName;
         this.taxCoefficient = taxCoefficient;
     }
 
     public VehicleType() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTypeName() {

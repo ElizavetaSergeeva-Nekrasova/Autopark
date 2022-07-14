@@ -6,9 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class VehicleCollection {
-    private static List<VehicleType> vehicleTypeList;
-    private static List<Vehicle> vehicleList;
-    private static List<Rent> rentList;
+    private List<VehicleType> vehicleTypeList;
+    private List<Vehicle> vehicleList;
+    private List<Rent> rentList;
 
     private static final int ZERO_ARRAY_ELEMENT = 0;
     private static final int FIRST_ARRAY_ELEMENT = 1;
@@ -23,8 +23,6 @@ public class VehicleCollection {
     private static final int TENTH_ARRAY_ELEMENT = 10;
     private static final int ELEVENTH_ARRAY_ELEMENT = 11;
     private static final int NUMBER_OF_PARAMETERS_FOR_COMBUSTION_ENGINES = 12;
-
-
 
     public VehicleCollection(String types, String vehicles, String rents) {
         String typesFile = types + ".csv";
@@ -67,7 +65,7 @@ public class VehicleCollection {
     }
 
     public void display() {
-        String templateForHeader = "%3s%10s%15s%25s%25s%15s%15s%15s%15s%12s%15s";
+        String templateForHeader = "\n%3s%10s%15s%25s%25s%15s%15s%15s%15s%12s%15s";
         System.out.printf(templateForHeader, "Id", "Type", "ModelName", "Number",
                 "Weight (kg)", "Year", "Mileage", "Color", "Income", "Tax", "Profit");
 
@@ -197,6 +195,10 @@ public class VehicleCollection {
         );
     }
 
+    private VehicleType getVehicleTypeById(int id) {
+        return vehicleTypeList.get(id - 1);
+    }
+
     private static List<String> readInfo(String inFile) {
         List<String> list = new ArrayList<>();
 
@@ -223,14 +225,6 @@ public class VehicleCollection {
         String[] fields = formattedCsvString.split(",");
 
         return fields;
-    }
-
-    private static VehicleType getVehicleTypeById(int id) {
-        return vehicleTypeList.get(id - 1);
-    }
-
-    private static Vehicle getVehicleById(int id) {
-        return vehicleList.get(id - 1);
     }
 
     private static Date formatStringToDate(String date) {

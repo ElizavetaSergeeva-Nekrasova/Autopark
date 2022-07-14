@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Vehicle implements Comparable<Vehicle> {
+    private List<Rent> rentList;
     private int id;
     private VehicleType vehicleType;
     private String model;
@@ -15,8 +16,9 @@ public class Vehicle implements Comparable<Vehicle> {
     public Vehicle() {
     }
 
-    public Vehicle(int id, VehicleType vehicleType, String model, String stateNumber,
+    public Vehicle(List<Rent> rentList, int id, VehicleType vehicleType, String model, String stateNumber,
                    double weight, int year, int mileage, Color color, Startable engine) {
+        this.rentList = rentList;
         this.id = id;
         try {
             if (TechnicalSpecialist.validateVehicleType(vehicleType)) {
@@ -189,13 +191,19 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     public double getCalcTaxPerMonth() {
-        double taxPerMonth = (this.weight * 0.0013) + (this.vehicleType.getTaxCoefficient() * this.engine.getTaxPerMonth() * 30) + 5;
-
-        return taxPerMonth;
+        return (this.weight * 0.0013) + (this.vehicleType.getTaxCoefficient() * this.engine.getTaxPerMonth() * 30) + 5;
     }
 
     public double getTotalIncome() {
+        double sum = 0;
 
+        for (int i = 0; i < rentList.size(); i++) {
+            if (rentList.get(i).getVehicleId() == id) {
+                sum += rentList.get(i).getCost();
+            }
+        }
+
+        return sum;
     }
 
     public double getTotalProfit() {

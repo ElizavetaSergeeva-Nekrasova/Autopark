@@ -1,14 +1,14 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class VehicleCollection {
-    private static List<VehicleType> vehicleTypeList;
-    private static List<Vehicle> vehicleList;
-    private static List<Rent> rentList;
+    public static List<VehicleType> vehicleTypeList;
+    public static List<Vehicle> vehicleList;
+    public static List<Rent> rentList;
 
     private static final int ZERO_ARRAY_ELEMENT = 0;
     private static final int FIRST_ARRAY_ELEMENT = 1;
@@ -32,11 +32,59 @@ public class VehicleCollection {
         String rentsFile = rents + ".csv";
 
         vehicleTypeList = loadTypes(typesFile);
-        vehicleList = loadVehicles(vehiclesFile);
         rentList = loadRents(rentsFile);
+        vehicleList = loadVehicles(vehiclesFile);
     }
 
-    List<VehicleType> loadTypes(String typesFile) {
+    public void insert(int index, Vehicle v) {
+        if(index >= vehicleList.size() || index < 0) {
+            vehicleList.add(v);
+        }
+    }
+
+    public int delete(int index) {
+        if(index >= vehicleList.size() || index < 0) {
+            return -1;
+        }
+
+        vehicleList.remove(index);
+
+        return index;
+    }
+
+    public double sumTotalProfit() {
+        double sum = 0;
+
+        for (int i = 0; i < rentList.size(); i++) {
+            sum += rentList.get(i).getCost();
+        }
+
+        return sum;
+    }
+
+    public void sort(Comparator<Vehicle> comparator) {
+
+    }
+
+    public void display() {
+        String templateForHeader = "%3s%10s%25s%15s%15s%15s%15s%15s%15s%15s%15s";
+        System.out.printf(templateForHeader, "Id", "Type", "ModelName", "Number",
+                "Weight (kg)", "Year", "Mileage", "Color", "Income", "Tax", "Profit");
+
+        String templateForLines = "%d%10s%25s%15s%15f%15d%15d%15s%15f%15f%15f";
+
+        int i = 0;
+        while (i < vehicleList.size()) {
+            Vehicle v = vehicleList.get(i);
+            System.out.println();
+            System.out.format(templateForLines, v.getId(), v.getVehicleType().getTypeName(), v.getModel(),
+                    v.getStateNumber(), v.getWeight(), v.getYear(), v.getMileage(),
+                    "someColor", v.getTotalIncome(), 0.0, 0.0);
+            i++;
+        }
+    }
+
+    private List<VehicleType> loadTypes(String typesFile) {
         List<String> list = readInfo(typesFile);
         List<VehicleType> typesList = new ArrayList<>();
 
@@ -47,7 +95,7 @@ public class VehicleCollection {
         return typesList;
     }
 
-    List<Vehicle> loadVehicles(String vehiclesFile) {
+    private List<Vehicle> loadVehicles(String vehiclesFile) {
         List<String> list = readInfo(vehiclesFile);
         List<Vehicle> vehiclesList = new ArrayList<>();
 
@@ -58,7 +106,7 @@ public class VehicleCollection {
         return vehiclesList;
     }
 
-    List<Rent> loadRents(String rentsFile) {
+    private List<Rent> loadRents(String rentsFile) {
         List<String> list = readInfo(rentsFile);
         List<Rent> rentsList = new ArrayList<>();
 
@@ -69,21 +117,23 @@ public class VehicleCollection {
         return rentsList;
     }
 
-    VehicleType createType(String csvString) {
+    private VehicleType createType(String csvString) {
         String[] fields = getLineFields(csvString);
 
         VehicleType vehicleType = new VehicleType(
                 Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
                 fields[FIRST_ARRAY_ELEMENT],
-                Double.parseDouble(fields[SECOND_ARRAY_ELEMENT]));
+                Double.parseDouble(fields[SECOND_ARRAY_ELEMENT])
+        );
 
         return vehicleType;
     }
 
-    Vehicle createVehicle(String csvString) {
+    private Vehicle createVehicle(String csvString) {
         String[] fields = getLineFields(csvString);
 
         Vehicle vehicle = new Vehicle(
+                rentList,
                 Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
                 getVehicleTypeById(Integer.parseInt(fields[FIRST_ARRAY_ELEMENT])),
                 fields[SECOND_ARRAY_ELEMENT],
@@ -92,18 +142,22 @@ public class VehicleCollection {
                 Integer.parseInt(fields[FIFTH_ARRAY_ELEMENT]),
                 Integer.parseInt(fields[SIXTH_ARRAY_ELEMENT]),
                 Color.valueOf(fields[SEVENTH_ARRAY_ELEMENT]),
-                createEngine(fields));
+                createEngine(fields)
+        );
+
+        System.out.println(vehicle.getEngine());
 
         return vehicle;
     }
 
-    Rent createRent(String csvString) {
+    private Rent createRent(String csvString) {
         String[] fields = getLineFields(csvString);
 
         Rent rent = new Rent(
-                Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
-                Date.valueOf(fields[FIRST_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[SECOND_ARRAY_ELEMENT]));
+                    Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
+                    formatStringToDate(fields[FIRST_ARRAY_ELEMENT]),
+                    Double.parseDouble(fields[SECOND_ARRAY_ELEMENT])
+        );
 
         return rent;
     }
@@ -124,20 +178,23 @@ public class VehicleCollection {
         return new GasolineEngine(
                 Double.parseDouble(fields[NINTH_ARRAY_ELEMENT]),
                 Double.parseDouble(fields[TENTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[ELEVENTH_ARRAY_ELEMENT]));
+                Double.parseDouble(fields[ELEVENTH_ARRAY_ELEMENT])
+        );
     }
 
     private DieselEngine createDieselEngine(String[] fields) {
         return new DieselEngine(
                 Double.parseDouble(fields[NINTH_ARRAY_ELEMENT]),
                 Double.parseDouble(fields[TENTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[ELEVENTH_ARRAY_ELEMENT]));
+                Double.parseDouble(fields[ELEVENTH_ARRAY_ELEMENT])
+        );
     }
 
     private ElectricalEngine createElectricalEngine(String[] fields) {
         return new ElectricalEngine(
                 Double.parseDouble(fields[NINTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[TENTH_ARRAY_ELEMENT]));
+                Double.parseDouble(fields[TENTH_ARRAY_ELEMENT])
+        );
     }
 
     private static List<String> readInfo(String inFile) {
@@ -170,5 +227,15 @@ public class VehicleCollection {
 
     private static VehicleType getVehicleTypeById(int id) {
         return vehicleTypeList.get(id - 1);
+    }
+
+    private static Date formatStringToDate(String date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+        try {
+            return formatter.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("Wrong date format", e);
+        }
     }
 }

@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Date;
@@ -37,8 +36,8 @@ public class VehicleCollection {
         rentList = loadRents(rentsFile);
     }
 
-    List<VehicleType> loadTypes(String inFile) {
-        List<String> list = readInfo(inFile);
+    List<VehicleType> loadTypes(String typesFile) {
+        List<String> list = readInfo(typesFile);
         List<VehicleType> typesList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -48,8 +47,8 @@ public class VehicleCollection {
         return typesList;
     }
 
-    List<Vehicle> loadVehicles(String inFile) {
-        List<String> list = readInfo(inFile);
+    List<Vehicle> loadVehicles(String vehiclesFile) {
+        List<String> list = readInfo(vehiclesFile);
         List<Vehicle> vehiclesList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -59,8 +58,8 @@ public class VehicleCollection {
         return vehiclesList;
     }
 
-    List<Rent> loadRents(String inFile) {
-        List<String> list = readInfo(inFile);
+    List<Rent> loadRents(String rentsFile) {
+        List<String> list = readInfo(rentsFile);
         List<Rent> rentsList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -86,7 +85,7 @@ public class VehicleCollection {
 
         Vehicle vehicle = new Vehicle(
                 Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
-                vehicleTypeList.get(Integer.parseInt(fields[FIRST_ARRAY_ELEMENT])),
+                getVehicleTypeById(Integer.parseInt(fields[FIRST_ARRAY_ELEMENT])),
                 fields[SECOND_ARRAY_ELEMENT],
                 fields[THIRD_ARRAY_ELEMENT],
                 Double.parseDouble(fields[FOURTH_ARRAY_ELEMENT]),
@@ -144,7 +143,7 @@ public class VehicleCollection {
     private static List<String> readInfo(String inFile) {
         List<String> list = new ArrayList<>();
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("types.csv"))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(inFile))) {
             String fileContent = null;
             while ((fileContent = bufferedReader.readLine()) != null) {
                 list.add(fileContent);
@@ -167,5 +166,9 @@ public class VehicleCollection {
         String[] fields = formattedCsvString.split(",");
 
         return fields;
+    }
+
+    private static VehicleType getVehicleTypeById(int id) {
+        return vehicleTypeList.get(id - 1);
     }
 }

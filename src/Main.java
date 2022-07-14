@@ -4,6 +4,7 @@ public class Main {
 
     public static void main(String[] args) {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
+
     }
 
     private static class VehicleUtils {

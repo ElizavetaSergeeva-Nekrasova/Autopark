@@ -238,6 +238,6 @@ public class Vehicle implements Comparable<Vehicle> {
     }
 
     private static VehicleType getDefaultVehicleType() {
-        return new VehicleType("Unknown", 1d);
+        return new VehicleType(1, "Unknown", 1d);
     }
 }

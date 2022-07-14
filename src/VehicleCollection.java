@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,8 +149,9 @@ public class VehicleCollection {
             while ((fileContent = bufferedReader.readLine()) != null) {
                 list.add(fileContent);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException("Cannot read the file", e);
         }
 
         return list;

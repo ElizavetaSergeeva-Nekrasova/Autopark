@@ -6,9 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class VehicleCollection {
-    public static List<VehicleType> vehicleTypeList;
-    public static List<Vehicle> vehicleList;
-    public static List<Rent> rentList;
+    private static List<VehicleType> vehicleTypeList;
+    private static List<Vehicle> vehicleList;
+    private static List<Rent> rentList;
 
     private static final int ZERO_ARRAY_ELEMENT = 0;
     private static final int FIRST_ARRAY_ELEMENT = 1;
@@ -55,23 +55,23 @@ public class VehicleCollection {
     public double sumTotalProfit() {
         double sum = 0;
 
-        for (int i = 0; i < rentList.size(); i++) {
-            sum += rentList.get(i).getCost();
+        for (int i = 0; i < vehicleList.size(); i++) {
+            sum += vehicleList.get(i).getTotalProfit();
         }
 
         return sum;
     }
 
     public void sort(Comparator<Vehicle> comparator) {
-
+        Collections.sort(vehicleList, comparator);
     }
 
     public void display() {
-        String templateForHeader = "%3s%10s%25s%15s%15s%15s%15s%15s%15s%15s%15s";
+        String templateForHeader = "%3s%10s%15s%25s%25s%15s%15s%15s%15s%12s%15s";
         System.out.printf(templateForHeader, "Id", "Type", "ModelName", "Number",
                 "Weight (kg)", "Year", "Mileage", "Color", "Income", "Tax", "Profit");
 
-        String templateForLines = "%d%10s%25s%15s%15f%15d%15d%15s%15f%15f%15f";
+        String templateForLines = "%-7d%-10s%-29s%-20s%-22.2f%-12d%-15d%-15s%-15.2f%-15.2f%-15.2f";
 
         int i = 0;
         while (i < vehicleList.size()) {
@@ -79,9 +79,11 @@ public class VehicleCollection {
             System.out.println();
             System.out.format(templateForLines, v.getId(), v.getVehicleType().getTypeName(), v.getModel(),
                     v.getStateNumber(), v.getWeight(), v.getYear(), v.getMileage(),
-                    "someColor", v.getTotalIncome(), 0.0, 0.0);
+                    v.getColor(), v.getTotalIncome(), v.getCalcTaxPerMonth(), v.getTotalProfit());
             i++;
         }
+        System.out.println();
+        System.out.printf("%-160s%.2f", "Total", sumTotalProfit());
     }
 
     private List<VehicleType> loadTypes(String typesFile) {
@@ -225,6 +227,10 @@ public class VehicleCollection {
 
     private static VehicleType getVehicleTypeById(int id) {
         return vehicleTypeList.get(id - 1);
+    }
+
+    private static Vehicle getVehicleById(int id) {
+        return vehicleList.get(id - 1);
     }
 
     private static Date formatStringToDate(String date) {

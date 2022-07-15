@@ -10,18 +10,6 @@ public class VehicleCollection {
     private List<Vehicle> vehicleList;
     private List<Rent> rentList;
 
-    private static final int ZERO_ARRAY_ELEMENT = 0;
-    private static final int FIRST_ARRAY_ELEMENT = 1;
-    private static final int SECOND_ARRAY_ELEMENT = 2;
-    private static final int THIRD_ARRAY_ELEMENT = 3;
-    private static final int FOURTH_ARRAY_ELEMENT = 4;
-    private static final int FIFTH_ARRAY_ELEMENT = 5;
-    private static final int SIXTH_ARRAY_ELEMENT = 6;
-    private static final int SEVENTH_ARRAY_ELEMENT = 7;
-    private static final int EIGHTH_ARRAY_ELEMENT = 8;
-    private static final int NINTH_ARRAY_ELEMENT = 9;
-    private static final int TENTH_ARRAY_ELEMENT = 10;
-    private static final int ELEVENTH_ARRAY_ELEMENT = 11;
     private static final int NUMBER_OF_PARAMETERS_FOR_COMBUSTION_ENGINES = 12;
 
     public VehicleCollection(String types, String vehicles, String rents) {
@@ -121,9 +109,9 @@ public class VehicleCollection {
         String[] fields = getLineFields(csvString);
 
         VehicleType vehicleType = new VehicleType(
-                Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
-                fields[FIRST_ARRAY_ELEMENT],
-                Double.parseDouble(fields[SECOND_ARRAY_ELEMENT])
+                Integer.parseInt(fields[0]),
+                fields[1],
+                Double.parseDouble(fields[2])
         );
 
         return vehicleType;
@@ -134,14 +122,14 @@ public class VehicleCollection {
 
         Vehicle vehicle = new Vehicle(
                 rentList,
-                Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
-                getVehicleTypeById(Integer.parseInt(fields[FIRST_ARRAY_ELEMENT])),
-                fields[SECOND_ARRAY_ELEMENT],
-                fields[THIRD_ARRAY_ELEMENT],
-                Double.parseDouble(fields[FOURTH_ARRAY_ELEMENT]),
-                Integer.parseInt(fields[FIFTH_ARRAY_ELEMENT]),
-                Integer.parseInt(fields[SIXTH_ARRAY_ELEMENT]),
-                Color.valueOf(fields[SEVENTH_ARRAY_ELEMENT]),
+                Integer.parseInt(fields[0]),
+                getVehicleTypeById(Integer.parseInt(fields[1])),
+                fields[2],
+                fields[3],
+                Double.parseDouble(fields[4]),
+                Integer.parseInt(fields[5]),
+                Integer.parseInt(fields[6]),
+                Color.valueOf(fields[7]),
                 createEngine(fields)
         );
 
@@ -152,9 +140,9 @@ public class VehicleCollection {
         String[] fields = getLineFields(csvString);
 
         Rent rent = new Rent(
-                    Integer.parseInt(fields[ZERO_ARRAY_ELEMENT]),
-                    formatStringToDate(fields[FIRST_ARRAY_ELEMENT]),
-                    Double.parseDouble(fields[SECOND_ARRAY_ELEMENT])
+                    Integer.parseInt(fields[0]),
+                    formatStringToDate(fields[1]),
+                    Double.parseDouble(fields[2])
         );
 
         return rent;
@@ -162,7 +150,7 @@ public class VehicleCollection {
 
     private Startable createEngine(String[] fields) {
         if (fields.length == NUMBER_OF_PARAMETERS_FOR_COMBUSTION_ENGINES) {
-            if (fields[EIGHTH_ARRAY_ELEMENT].equals("Gasoline")) {
+            if (fields[8].equals("Gasoline")) {
                 return createGasolineEngine(fields);
             }
 
@@ -174,24 +162,24 @@ public class VehicleCollection {
 
     private GasolineEngine createGasolineEngine(String[] fields) {
         return new GasolineEngine(
-                Double.parseDouble(fields[NINTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[TENTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[ELEVENTH_ARRAY_ELEMENT])
+                Double.parseDouble(fields[9]),
+                Double.parseDouble(fields[10]),
+                Double.parseDouble(fields[11])
         );
     }
 
     private DieselEngine createDieselEngine(String[] fields) {
         return new DieselEngine(
-                Double.parseDouble(fields[NINTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[TENTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[ELEVENTH_ARRAY_ELEMENT])
+                Double.parseDouble(fields[9]),
+                Double.parseDouble(fields[10]),
+                Double.parseDouble(fields[11])
         );
     }
 
     private ElectricalEngine createElectricalEngine(String[] fields) {
         return new ElectricalEngine(
-                Double.parseDouble(fields[NINTH_ARRAY_ELEMENT]),
-                Double.parseDouble(fields[TENTH_ARRAY_ELEMENT])
+                Double.parseDouble(fields[9]),
+                Double.parseDouble(fields[10])
         );
     }
 

@@ -4,8 +4,20 @@ public class ElectricalEngine extends AbstractEngine{
 
     public ElectricalEngine(double batteryCharge, double electricityConsumptionPerKilometer) {
         super("Electrical", 0.1);
-        this.batteryCharge = batteryCharge;
-        this.electricityConsumptionPerKilometer = electricityConsumptionPerKilometer;
+        try {
+            if (TechnicalSpecialist.validateBatteryCharge(batteryCharge)) {
+                this.batteryCharge = batteryCharge;
+            } else {
+                throw new NotVehicleException("Wrong battery charge: " + batteryCharge);
+            }
+            if (TechnicalSpecialist.validateElectricityConsumptionPerKilometer(electricityConsumptionPerKilometer)) {
+                this.electricityConsumptionPerKilometer = electricityConsumptionPerKilometer;
+            } else {
+                throw new NotVehicleException("Wrong electricity consumption per kilometer: " + electricityConsumptionPerKilometer);
+            }
+        } catch (NotVehicleException e) {
+            e.printStackTrace();
+        }
     }
 
     public double getBatteryCharge() {

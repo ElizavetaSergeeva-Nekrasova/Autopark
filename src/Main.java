@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     private static VehicleType[] vehicleTypes;
@@ -6,7 +6,10 @@ public class Main {
 
     public static void main(String[] args) {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
+        List<Vehicle> vehicleList = vehicleCollection.getVehicleList();
 
+        MyStack<Vehicle> vehicleMyStack = new MyStack<Vehicle>();
+        garageModel(vehicleMyStack, vehicleList);
     }
 
     private static class VehicleUtils {
@@ -15,6 +18,19 @@ public class Main {
                     vehicles) {
                 System.out.println(vehicle);
             }
+        }
+    }
+
+    private static void garageModel(MyStack<Vehicle> vehicleMyStack, List<Vehicle> vehicleList) {
+        int i = 0;
+        for (; i < vehicleList.size(); i++) {
+            vehicleMyStack.push(vehicleList.get(i));
+            System.out.println("Auto" + (i + 1) + " заехало в гараж");
+        }
+        while (vehicleMyStack.size() != 0) {
+            vehicleMyStack.pop();
+            System.out.println("Auto" + i + " выехало из гаража");
+            i--;
         }
     }
 

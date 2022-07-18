@@ -22,6 +22,10 @@ public class VehicleCollection {
         vehicleList = loadVehicles(vehiclesFile);
     }
 
+    public List<Vehicle> getVehicleList() {
+        return vehicleList;
+    }
+
     public void insert(int index, Vehicle v) {
         if(index >= vehicleList.size() || index < 0) {
             vehicleList.add(v);

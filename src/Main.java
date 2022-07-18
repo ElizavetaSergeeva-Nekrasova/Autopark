@@ -7,23 +7,6 @@ public class Main {
     public static void main(String[] args) {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
 
-        vehicleCollection.display();
-
-        Vehicle vehicle = new Vehicle(new ArrayList<Rent>(), 100,
-                new VehicleType(100, "someType", 1.77),
-                "someModel", "5555 AX-7", 1000.0, 2022,
-                202323, Color.Yellow, new ElectricalEngine(50, 5000));
-
-        vehicleCollection.insert(100, vehicle);
-
-        vehicleCollection.delete(1);
-        vehicleCollection.delete(4);
-
-        vehicleCollection.display();
-
-        vehicleCollection.sort(new ModelComparator());
-
-        vehicleCollection.display();
     }
 
     private static class VehicleUtils {

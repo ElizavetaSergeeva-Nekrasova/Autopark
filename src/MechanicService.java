@@ -72,15 +72,25 @@ public class MechanicService implements Fixer  {
     }
 
     private static void writeToFile(Vehicle vehicle, Map<String, Integer> map) {
+        String line = getLine(vehicle, map);
+
+        writeLine(line);
+    }
+
+    private static String getLine(Vehicle vehicle, Map<String, Integer> map) {
         String line = String.valueOf(vehicle.getId());
 
         for (Map.Entry<String, Integer> entry:
-             map.entrySet()) {
+                map.entrySet()) {
             line = line + ", " + entry.getKey() + ", " + entry.getValue();
         }
 
         line = line + "\n";
 
+        return line;
+    }
+
+    private static void writeLine(String line) {
         try {
             Files.write(Paths.get("orders.csv"), line.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
         } catch (IOException e) {

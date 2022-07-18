@@ -1,4 +1,8 @@
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
     private static VehicleType[] vehicleTypes;
@@ -6,24 +10,10 @@ public class Main {
 
     public static void main(String[] args) {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
+        List<Vehicle> vehicleList = vehicleCollection.getVehicleList();
+        MechanicService mechanicService = new MechanicService();
 
-        vehicleCollection.display();
-
-        Vehicle vehicle = new Vehicle(new ArrayList<Rent>(), 100,
-                new VehicleType(100, "someType", 1.77),
-                "someModel", "5555 AX-7", 1000.0, 2022,
-                202323, Color.Yellow, new ElectricalEngine(50, 5000));
-
-        vehicleCollection.insert(100, vehicle);
-
-        vehicleCollection.delete(1);
-        vehicleCollection.delete(4);
-
-        vehicleCollection.display();
-
-        vehicleCollection.sort(new ModelComparator());
-
-        vehicleCollection.display();
+        fixVehicles(vehicleList, mechanicService);
     }
 
     private static class VehicleUtils {
@@ -32,6 +22,45 @@ public class Main {
                     vehicles) {
                 System.out.println(vehicle);
             }
+        }
+    }
+
+    private static void fixVehicles(List<Vehicle> vehicleList, MechanicService mechanicService) {
+        int max = 0;
+        Vehicle vehicleWithMaxBreaks = null;
+
+        for (int i = 0; i < vehicleList.size(); i++) {
+            Vehicle vehicle = vehicleList.get(i);
+            Map<String, Integer> map = mechanicService.detectBreaking(vehicle);
+            int breaksCount = getBreaksCount(map);
+
+            if (breaksCount == 0) {
+                System.out.println("Vehicle without breaks: " + vehicle);
+            }
+
+            if (breaksCount > max) {
+                max = breaksCount;
+                vehicleWithMaxBreaks = vehicle;
+            }
+
+            mechanicService.repair(vehicle);
+        }
+
+        System.out.println("Car with the maximum number of breaks: " + vehicleWithMaxBreaks);
+    }
+
+    private static int getBreaksCount(Map<String, Integer> map ) {
+        int numberOfBreaks = 0;
+
+        if (map.isEmpty()) {
+            return 0;
+        } else {
+            for (Map.Entry<String, Integer> entry:
+                    map.entrySet()) {
+                numberOfBreaks += entry.getValue();
+            }
+
+            return numberOfBreaks;
         }
     }
 

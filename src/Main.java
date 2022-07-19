@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     private static VehicleType[] vehicleTypes;
@@ -6,24 +6,11 @@ public class Main {
 
     public static void main(String[] args) {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
+        List<Vehicle> vehicleList = vehicleCollection.getVehicleList();
 
-        vehicleCollection.display();
-
-        Vehicle vehicle = new Vehicle(new ArrayList<Rent>(), 100,
-                new VehicleType(100, "someType", 1.77),
-                "someModel", "5555 AX-7", 1000.0, 2022,
-                202323, Color.Yellow, new ElectricalEngine(50, 5000));
-
-        vehicleCollection.insert(100, vehicle);
-
-        vehicleCollection.delete(1);
-        vehicleCollection.delete(4);
-
-        vehicleCollection.display();
-
-        vehicleCollection.sort(new ModelComparator());
-
-        vehicleCollection.display();
+        MyQueue<Vehicle> vehicleMyQueue = new MyQueue<>();
+        fillMyQueue(vehicleMyQueue, vehicleList);
+        carWash(vehicleMyQueue);
     }
 
     private static class VehicleUtils {
@@ -32,6 +19,21 @@ public class Main {
                     vehicles) {
                 System.out.println(vehicle);
             }
+        }
+    }
+
+    private static void fillMyQueue(MyQueue<Vehicle> vehicleMyQueue, List<Vehicle> vehicleList) {
+        for (int i = 0; i < vehicleList.size(); i++) {
+            vehicleMyQueue.enqueue(vehicleList.get(i));
+        }
+    }
+
+    private static void carWash(MyQueue<Vehicle> vehicleMyQueue) {
+        int i = 1;
+        while (vehicleMyQueue.size() != 0) {
+            vehicleMyQueue.dequeue();
+            System.out.println("Auto" + i + " вымыто");
+            i++;
         }
     }
 

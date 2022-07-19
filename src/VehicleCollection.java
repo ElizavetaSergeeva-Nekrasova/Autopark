@@ -12,6 +12,7 @@ public class VehicleCollection {
 
     private static final int NUMBER_OF_PARAMETERS_FOR_COMBUSTION_ENGINES = 12;
 
+
     public VehicleCollection(String types, String vehicles, String rents) {
         String typesFile = types + ".csv";
         String vehiclesFile = vehicles + ".csv";
@@ -20,6 +21,10 @@ public class VehicleCollection {
         vehicleTypeList = loadTypes(typesFile);
         rentList = loadRents(rentsFile);
         vehicleList = loadVehicles(vehiclesFile);
+    }
+
+    public List<Vehicle> getVehicleList() {
+        return vehicleList;
     }
 
     public void insert(int index, Vehicle v) {

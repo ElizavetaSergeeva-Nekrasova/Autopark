@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.stream.Collectors;
 
 public class VehicleCollection {
     private List<VehicleType> vehicleTypeList;
@@ -25,6 +26,27 @@ public class VehicleCollection {
 
     public List<Vehicle> getVehicleList() {
         return vehicleList;
+    }
+
+    public List<Vehicle> getBrokenVehicles(MechanicService mechanicService) {
+        return loadVehicles("vehicles.csv")
+                .stream()
+                .filter(x -> !mechanicService.detectBreaking(x).isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    public static List<Vehicle> sortByNumberOfBrokenDetails(List<Vehicle> brokenVehicleList) {
+        return brokenVehicleList
+                .stream()
+                .sorted(new ComparatorByDefectCount())
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Vehicle> getVehicleWithMaxTax() {
+        return Optional.of(loadVehicles("vehicles.csv")
+                .stream()
+                .max(new ComparatorByTax())
+                .get());
     }
 
     public void insert(int index, Vehicle v) {

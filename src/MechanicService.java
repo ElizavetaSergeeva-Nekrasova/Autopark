@@ -23,9 +23,7 @@ public class MechanicService implements Fixer  {
 
         int i = 0;
         while (i < numberOfBrokenDetails) {
-            String detail = DETAILS[getRandomArrayElement()];
-            int numberOfBreaks = getRandomNumberOfBreaks();
-            map.put(detail, numberOfBreaks);
+            setMapOfBrokenDetails(map);
             i++;
         }
 
@@ -57,6 +55,12 @@ public class MechanicService implements Fixer  {
         }
 
         return false;
+    }
+
+    private static void setMapOfBrokenDetails(Map<String, Integer> map) {
+        String detail = DETAILS[getRandomArrayElement()];
+        int numberOfBreaks = getRandomNumberOfBreaks();
+        map.put(detail, numberOfBreaks);
     }
 
     private static int getRandomNumberOfBrokenDetails() {

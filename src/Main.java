@@ -18,7 +18,14 @@ public class Main {
 
         mechanicService.detectBreaking(vehicleList.get(0));
         mechanicService.repair(vehicleList.get(0));
-        Rent rent = rentVehicle(vehicleList.get(0), 100, mechanicService);
+
+        Rent rent = null;
+        try {
+            rent = rentVehicle(vehicleList.get(0), 100, mechanicService);
+        } catch (DefectedVehicleException e) {
+            e.printStackTrace();
+        }
+
         getRentInfo(rent);
     }
 
@@ -31,18 +38,13 @@ public class Main {
         }
     }
 
-    private static Rent rentVehicle(Vehicle vehicle, double cost,  MechanicService mechanicService) {
+    private static Rent rentVehicle(Vehicle vehicle, double cost,  MechanicService mechanicService)
+            throws DefectedVehicleException {
         if (!mechanicService.isBroken(vehicle)) {
             return new Rent(vehicle.getId(), new Date(), cost);
         }
 
-        try {
-            throw new DefectedVehicleException("Vehicle is defected");
-        } catch (DefectedVehicleException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        throw new DefectedVehicleException("Vehicle is defected");
     }
 
     private static void getRentInfo(Rent rent) {
@@ -77,19 +79,19 @@ public class Main {
         System.out.println("Car with the maximum number of breaks: " + vehicleWithMaxBreaks);
     }
 
-    private static int getBreaksCount(Map<String, Integer> map ) {
+    private static int getBreaksCount(Map<String, Integer> map) {
         int numberOfBreaks = 0;
 
         if (map.isEmpty()) {
             return 0;
-        } else {
-            for (Map.Entry<String, Integer> entry:
-                    map.entrySet()) {
-                numberOfBreaks += entry.getValue();
-            }
-
-            return numberOfBreaks;
         }
+
+        for (Map.Entry<String, Integer> entry:
+                map.entrySet()) {
+            numberOfBreaks += entry.getValue();
+        }
+
+        return numberOfBreaks;
     }
 
     private static void swap(Vehicle[] vehicles, int a, int b) {

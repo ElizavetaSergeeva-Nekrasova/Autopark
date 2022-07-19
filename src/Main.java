@@ -1,6 +1,7 @@
 import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,11 @@ public class Main {
         MechanicService mechanicService = new MechanicService();
 
         fixVehicles(vehicleList, mechanicService);
+
+        mechanicService.detectBreaking(vehicleList.get(0));
+        mechanicService.repair(vehicleList.get(0));
+        Rent rent = rentVehicle(vehicleList.get(0), 100, mechanicService);
+        getRentInfo(rent);
     }
 
     private static class VehicleUtils {
@@ -22,6 +28,22 @@ public class Main {
                     vehicles) {
                 System.out.println(vehicle);
             }
+        }
+    }
+
+    private static Rent rentVehicle(Vehicle vehicle, double cost,  MechanicService mechanicService) {
+        if (!mechanicService.isBroken(vehicle)) {
+            return new Rent(vehicle.getId(), new Date(), cost);
+        }
+
+        return null;
+    }
+
+    private static void getRentInfo(Rent rent) {
+        if (rent != null) {
+            System.out.println(rent);
+        } else {
+            System.out.println("Rent is not possible");
         }
     }
 

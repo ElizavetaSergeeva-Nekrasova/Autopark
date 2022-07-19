@@ -12,6 +12,7 @@ public class VehicleCollection {
 
     private static final int NUMBER_OF_PARAMETERS_FOR_COMBUSTION_ENGINES = 12;
 
+
     public VehicleCollection(String types, String vehicles, String rents) {
         String typesFile = types + ".csv";
         String vehiclesFile = vehicles + ".csv";

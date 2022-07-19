@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,19 +13,51 @@ public class Main {
         List<Vehicle> sortedBrokenVehicleList = VehicleCollection.sortByNumberOfBrokenDetails(brokenVehicleList);
         showVehicles(sortedBrokenVehicleList);
 
-        repairVehicleList(brokenVehicleList, mechanicService);
+        showVolkswagenVehicles(vehicleList);
+        showNewestVolkswagen(vehicleList);
 
+        VehicleWash.washVehicles(vehicleList);
+        VehicleGarage.pullIntoAndLeaveGarage(vehicleList);
+
+        repairVehicleList(vehicleList, mechanicService);
     }
 
     private static void showVehicles(List<Vehicle> vehicleList) {
-        vehicleList.stream().forEach(System.out::println);
+        vehicleList
+                .stream()
+                .forEach(System.out::println);
     }
 
-    private static void repairVehicleList(List<Vehicle> brokenVehicleList, MechanicService mechanicService) {
-        brokenVehicleList.stream().forEach(mechanicService::repair);
+    private static void repairVehicleList(List<Vehicle> vehicleList, MechanicService mechanicService) {
+        vehicleList
+                .stream()
+                .forEach(vehicle -> {
+                    if (!mechanicService.isBroken(vehicle)) {
+                        System.out.println("Auto " + vehicle.getId() + " исправно");
+                    } else {
+                        System.out.println("Auto " + vehicle.getId() + " неисправно, чиним...");
+                        mechanicService.repair(vehicle);
+                    }
+                });
+
+        System.out.println("Теперь все транспортные средства исправны");
     }
 
     private static void showVolkswagenVehicles(List<Vehicle> vehicleList) {
+        findVolkswagenVehicles(vehicleList)
+                .forEach(System.out::println);
+    }
 
+    private static void showNewestVolkswagen(List<Vehicle> vehicleList) {
+        Vehicle newestVehicle = findVolkswagenVehicles(vehicleList)
+                .max((v1, v2) -> v1.getYear() - v2.getYear()).get();
+
+        System.out.println("The newest Volkswagen: " + newestVehicle);
+    }
+
+    private static Stream<Vehicle> findVolkswagenVehicles(List<Vehicle> vehicleList) {
+        return vehicleList
+                .stream()
+                .filter(vehicle -> vehicle.getModel().matches("(.)*Volkswagen(.)*"));
     }
 }

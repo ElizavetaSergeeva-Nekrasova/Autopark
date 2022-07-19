@@ -37,11 +37,4 @@ public class Rent {
     public void setCost(double cost) {
         this.cost = cost;
     }
-
-    @Override
-    public String toString() {
-        return vehicleId + ", " +
-                date + ", " +
-                cost;
-    }
 }

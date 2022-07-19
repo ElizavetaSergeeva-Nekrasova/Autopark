@@ -8,9 +8,8 @@ public class Main {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
         List<Vehicle> vehicleList = vehicleCollection.getVehicleList();
 
-        MyQueue<Vehicle> vehicleMyQueue = new MyQueue<>();
-        fillMyQueue(vehicleMyQueue, vehicleList);
-        carWash(vehicleMyQueue);
+        MyStack<Vehicle> vehicleMyStack = new MyStack<Vehicle>();
+        garageModel(vehicleMyStack, vehicleList);
     }
 
     private static class VehicleUtils {
@@ -22,18 +21,24 @@ public class Main {
         }
     }
 
-    private static void fillMyQueue(MyQueue<Vehicle> vehicleMyQueue, List<Vehicle> vehicleList) {
+    private static void garageModel(MyStack<Vehicle> vehicleMyStack, List<Vehicle> vehicleList) {
+        toTheGarage(vehicleMyStack, vehicleList);
+        fromTheGarage(vehicleMyStack, vehicleList);
+    }
+
+    private static void toTheGarage(MyStack<Vehicle> vehicleMyStack, List<Vehicle> vehicleList) {
         for (int i = 0; i < vehicleList.size(); i++) {
-            vehicleMyQueue.enqueue(vehicleList.get(i));
+            vehicleMyStack.push(vehicleList.get(i));
+            System.out.println("Auto" + (i + 1) + " заехало в гараж");
         }
     }
 
-    private static void carWash(MyQueue<Vehicle> vehicleMyQueue) {
-        int i = 1;
-        while (vehicleMyQueue.size() != 0) {
-            vehicleMyQueue.dequeue();
-            System.out.println("Auto" + i + " вымыто");
-            i++;
+    private static void fromTheGarage(MyStack<Vehicle> vehicleMyStack, List<Vehicle> vehicleList) {
+        int i = vehicleMyStack.size();
+        while (vehicleMyStack.size() != 0) {
+            vehicleMyStack.pop();
+            System.out.println("Auto" + i + " выехало из гаража");
+            i--;
         }
     }
 

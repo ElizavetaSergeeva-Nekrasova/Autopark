@@ -1,4 +1,9 @@
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     private static VehicleType[] vehicleTypes;
@@ -7,9 +12,21 @@ public class Main {
     public static void main(String[] args) {
         VehicleCollection vehicleCollection = new VehicleCollection("types", "vehicles", "rents");
         List<Vehicle> vehicleList = vehicleCollection.getVehicleList();
+        MechanicService mechanicService = new MechanicService();
 
-        MyStack<Vehicle> vehicleMyStack = new MyStack<Vehicle>();
-        garageModel(vehicleMyStack, vehicleList);
+        fixVehicles(vehicleList, mechanicService);
+
+        mechanicService.detectBreaking(vehicleList.get(0));
+        mechanicService.repair(vehicleList.get(0));
+
+        Rent rent = null;
+        try {
+            rent = rentVehicle(vehicleList.get(0), 100, mechanicService);
+        } catch (DefectedVehicleException e) {
+            e.printStackTrace();
+        }
+
+        getRentInfo(rent);
     }
 
     private static class VehicleUtils {
@@ -21,25 +38,60 @@ public class Main {
         }
     }
 
-    private static void garageModel(MyStack<Vehicle> vehicleMyStack, List<Vehicle> vehicleList) {
-        toTheGarage(vehicleMyStack, vehicleList);
-        fromTheGarage(vehicleMyStack, vehicleList);
+    private static Rent rentVehicle(Vehicle vehicle, double cost,  MechanicService mechanicService)
+            throws DefectedVehicleException {
+        if (!mechanicService.isBroken(vehicle)) {
+            return new Rent(vehicle.getId(), new Date(), cost);
+        }
+
+        throw new DefectedVehicleException("Vehicle is defected");
     }
 
-    private static void toTheGarage(MyStack<Vehicle> vehicleMyStack, List<Vehicle> vehicleList) {
+    private static void getRentInfo(Rent rent) {
+        if (rent != null) {
+            System.out.println(rent);
+        } else {
+            System.out.println("Rent is not possible");
+        }
+    }
+
+    private static void fixVehicles(List<Vehicle> vehicleList, MechanicService mechanicService) {
+        int max = 0;
+        Vehicle vehicleWithMaxBreaks = null;
+
         for (int i = 0; i < vehicleList.size(); i++) {
-            vehicleMyStack.push(vehicleList.get(i));
-            System.out.println("Auto" + (i + 1) + " заехало в гараж");
+            Vehicle vehicle = vehicleList.get(i);
+            Map<String, Integer> map = mechanicService.detectBreaking(vehicle);
+            int breaksCount = getBreaksCount(map);
+
+            if (breaksCount == 0) {
+                System.out.println("Vehicle without breaks: " + vehicle);
+            }
+
+            if (breaksCount > max) {
+                max = breaksCount;
+                vehicleWithMaxBreaks = vehicle;
+            }
+
+            mechanicService.repair(vehicle);
         }
+
+        System.out.println("Car with the maximum number of breaks: " + vehicleWithMaxBreaks);
     }
 
-    private static void fromTheGarage(MyStack<Vehicle> vehicleMyStack, List<Vehicle> vehicleList) {
-        int i = vehicleMyStack.size();
-        while (vehicleMyStack.size() != 0) {
-            vehicleMyStack.pop();
-            System.out.println("Auto" + i + " выехало из гаража");
-            i--;
+    private static int getBreaksCount(Map<String, Integer> map) {
+        int numberOfBreaks = 0;
+
+        if (map.isEmpty()) {
+            return 0;
         }
+
+        for (Map.Entry<String, Integer> entry:
+                map.entrySet()) {
+            numberOfBreaks += entry.getValue();
+        }
+
+        return numberOfBreaks;
     }
 
     private static void swap(Vehicle[] vehicles, int a, int b) {

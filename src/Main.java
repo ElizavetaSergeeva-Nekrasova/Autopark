@@ -36,6 +36,12 @@ public class Main {
             return new Rent(vehicle.getId(), new Date(), cost);
         }
 
+        try {
+            throw new DefectedVehicleException("Vehicle is defected");
+        } catch (DefectedVehicleException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 

@@ -245,8 +245,4 @@ public class Vehicle implements Comparable<Vehicle> {
             return this.mileage - o.mileage;
         }
     }
-
-    private static VehicleType getDefaultVehicleType() {
-        return new VehicleType(1, "Unknown", 1d);
-    }
 }

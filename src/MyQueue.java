@@ -11,17 +11,6 @@ public class MyQueue<T> {
         array = new Object[capacity];
     }
 
-    public void showQueue() {
-        System.out.println("size of array: " + size);
-        System.out.println("capacity of array: " + capacity);
-        System.out.println("indexOfFirst of array: " + indexOfFirst);
-        System.out.println("indexOfLast of array: " + indexOfLast);
-
-        for (int i = 0; i < array.length; i++) {
-            System.out.println(array[i]);
-        }
-    }
-
     public void enqueue(T element) {
         if (indexOfLast >= capacity - 1) {
             resizeArray();

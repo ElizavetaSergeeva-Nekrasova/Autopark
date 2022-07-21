@@ -38,11 +38,11 @@ public class MechanicService implements Fixer  {
 
     @Override
     public void repair(Vehicle vehicle) {
-        List<String> list = readInfo();
+        List<String> list = ReadFromFile.readInfo("orders.csv");
         String regex = vehicle.getId() + ".*";
 
         list.removeIf(i -> i.matches(regex));
-        reWriteToFile(list);
+        WriteToFile.writeListToFile(list, "orders.csv");
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MechanicService implements Fixer  {
     }
 
     private static String getLineFromOrdersFile(Vehicle vehicle) {
-        List<String> list = readInfo();
+        List<String> list = ReadFromFile.readInfo("orders.csv");
         String regex = vehicle.getId() + ".*";
 
         for (int i = 0; i < list.size(); i++) {
@@ -102,7 +102,7 @@ public class MechanicService implements Fixer  {
     private static void writeToFile(Vehicle vehicle, Map<String, Integer> map) {
         String line = getLine(vehicle, map);
 
-        writeLine(line);
+        WriteToFile.writeLineToFile(line, "orders.csv");
     }
 
     private static String getLine(Vehicle vehicle, Map<String, Integer> map) {
@@ -116,37 +116,5 @@ public class MechanicService implements Fixer  {
         line = line + "\n";
 
         return line;
-    }
-
-    private static void writeLine(String line) {
-        try {
-            Files.write(Paths.get("orders.csv"), line.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static List<String> readInfo() {
-        List<String> list = new ArrayList<>();
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("orders.csv"))) {
-            String fileContent = null;
-            while ((fileContent = bufferedReader.readLine()) != null) {
-                list.add(fileContent);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("Cannot read the file", e);
-        }
-
-        return list;
-    }
-
-    private static void reWriteToFile(List<String> list) {
-        try {
-            Files.write(Paths.get("orders.csv"), list, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

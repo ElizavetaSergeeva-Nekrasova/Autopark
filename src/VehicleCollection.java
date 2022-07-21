@@ -100,7 +100,7 @@ public class VehicleCollection {
     }
 
     private List<VehicleType> loadTypes(String typesFile) {
-        List<String> list = readInfo(typesFile);
+        List<String> list = ReadFromFile.readInfo(typesFile);
         List<VehicleType> typesList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -111,7 +111,7 @@ public class VehicleCollection {
     }
 
     private List<Vehicle> loadVehicles(String vehiclesFile) {
-        List<String> list = readInfo(vehiclesFile);
+        List<String> list = ReadFromFile.readInfo(vehiclesFile);
         List<Vehicle> vehiclesList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -122,7 +122,7 @@ public class VehicleCollection {
     }
 
     private List<Rent> loadRents(String rentsFile) {
-        List<String> list = readInfo(rentsFile);
+        List<String> list = ReadFromFile.readInfo(rentsFile);
         List<Rent> rentsList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {
@@ -212,22 +212,6 @@ public class VehicleCollection {
 
     private VehicleType getVehicleTypeById(int id) {
         return vehicleTypeList.get(id - 1);
-    }
-
-    private static List<String> readInfo(String inFile) {
-        List<String> list = new ArrayList<>();
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(inFile))) {
-            String fileContent = null;
-            while ((fileContent = bufferedReader.readLine()) != null) {
-                list.add(fileContent);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("Cannot read the file", e);
-        }
-
-        return list;
     }
 
     private static String formatString(String csvString) {

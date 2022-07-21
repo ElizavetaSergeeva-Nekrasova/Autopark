@@ -23,10 +23,7 @@ public class Main {
     }
 
     private static void showVehicles(List<Vehicle> vehicleList) {
-        for (Vehicle v:
-             vehicleList) {
-            System.out.println(v);
-        }
+        vehicleList.forEach(System.out::println);
     }
 
     private static void repairVehicleList(List<Vehicle> vehicleList, MechanicService mechanicService) {

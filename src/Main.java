@@ -7,10 +7,10 @@ public class Main {
         List<Vehicle> vehicleList = vehicleCollection.getVehicleList();
         MechanicService mechanicService = new MechanicService();
 
-        List<Vehicle> brokenVehicleList = vehicleCollection.getBrokenVehicles(mechanicService);
+        List<Vehicle> brokenVehicleList = mechanicService.getBrokenVehicles(vehicleList);
         showVehicles(brokenVehicleList);
 
-        List<Vehicle> sortedBrokenVehicleList = VehicleCollection.sortByNumberOfBrokenDetails(brokenVehicleList);
+        List<Vehicle> sortedBrokenVehicleList = MechanicService.sortByNumberOfBrokenDetails(brokenVehicleList);
         showVehicles(sortedBrokenVehicleList);
 
         showVolkswagenVehicles(vehicleList);

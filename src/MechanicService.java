@@ -1,16 +1,9 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class MechanicService implements Fixer  {
     private static final String[] DETAILS = {"Фильтр", "Втулка", "Вал", "Ось", "Свеча",  "Масло", "ГРМ", "ШРУС"};
@@ -21,7 +14,7 @@ public class MechanicService implements Fixer  {
     @Override
     public Map<String, Integer> detectBreaking(Vehicle vehicle) {
         Map<String, Integer> map = new HashMap<>();
-        int numberOfBrokenDetails = getRandomNumberOfBrokenDetails();
+        int numberOfBrokenDetails = Randomizer.getRandomFromZeroToNMinusOne(MAX_NUMBER_OF_BROKEN_DETAILS);
 
         int i = 0;
         while (i < numberOfBrokenDetails) {
@@ -68,6 +61,26 @@ public class MechanicService implements Fixer  {
         return sum;
     }
 
+    public List<Vehicle> getBrokenVehicles(List<Vehicle> vehicleList) {
+        return vehicleList
+                .stream()
+                .filter(x -> !this.detectBreaking(x).isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    public static List<Vehicle> sortByNumberOfBrokenDetails(List<Vehicle> brokenVehicleList) {
+        return brokenVehicleList
+                .stream()
+                .sorted(new ComparatorByDefectCount())
+                .collect(Collectors.toList());
+    }
+
+    private static void setMapOfBrokenDetails(Map<String, Integer> map) {
+        String detail = DETAILS[Randomizer.getRandomFromZeroToNMinusOne(NUMBER_OF_DETAILS)];
+        int numberOfBreaks = Randomizer.getRandomFromOneToN(MAX_NUMBER_OF_BREAKS);
+        map.put(detail, numberOfBreaks);
+    }
+
     private static String getLineFromOrdersFile(Vehicle vehicle) {
         List<String> list = ReadFromFile.readInfo("orders.csv");
         String regex = vehicle.getId() + ".*";
@@ -81,31 +94,13 @@ public class MechanicService implements Fixer  {
         return null;
     }
 
-    private static void setMapOfBrokenDetails(Map<String, Integer> map) {
-        String detail = DETAILS[getRandomArrayElement()];
-        int numberOfBreaks = getRandomNumberOfBreaks();
-        map.put(detail, numberOfBreaks);
-    }
-
-    private static int getRandomNumberOfBrokenDetails() {
-        return (int) (Math.random() * MAX_NUMBER_OF_BROKEN_DETAILS);
-    }
-
-    private static int getRandomArrayElement() {
-        return (int) (Math.random() * NUMBER_OF_DETAILS);
-    }
-
-    private static int getRandomNumberOfBreaks() {
-        return (int) ((Math.random() * MAX_NUMBER_OF_BREAKS) + 1);
-    }
-
     private static void writeToFile(Vehicle vehicle, Map<String, Integer> map) {
-        String line = getLine(vehicle, map);
+        String line = getBreakLine(vehicle, map);
 
         WriteToFile.writeLineToFile(line, "orders.csv");
     }
 
-    private static String getLine(Vehicle vehicle, Map<String, Integer> map) {
+    private static String getBreakLine(Vehicle vehicle, Map<String, Integer> map) {
         String line = String.valueOf(vehicle.getId());
 
         for (Map.Entry<String, Integer> entry:

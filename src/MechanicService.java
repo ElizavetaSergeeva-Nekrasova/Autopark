@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MechanicService implements Fixer  {
     private static final String[] DETAILS = {"Фильтр", "Втулка", "Вал", "Ось", "Свеча",  "Масло", "ГРМ", "ШРУС"};
@@ -45,16 +47,38 @@ public class MechanicService implements Fixer  {
 
     @Override
     public boolean isBroken(Vehicle vehicle) {
+        if (getLineFromOrdersFile(vehicle) != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static int getSumNumberOfBreaks(Vehicle vehicle) {
+        int sum = 0;
+
+        String regex = "\\s{1}\\d{1}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(getLineFromOrdersFile(vehicle));
+
+        while (matcher.find()) {
+            sum += Integer.parseInt(matcher.group().trim());
+        }
+
+        return sum;
+    }
+
+    private static String getLineFromOrdersFile(Vehicle vehicle) {
         List<String> list = readInfo();
         String regex = vehicle.getId() + ".*";
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).matches(regex)) {
-                return true;
+                return list.get(i);
             }
         }
 
-        return false;
+        return null;
     }
 
     private static void setMapOfBrokenDetails(Map<String, Integer> map) {

@@ -23,24 +23,29 @@ public class Main {
     }
 
     private static void showVehicles(List<Vehicle> vehicleList) {
-        vehicleList
-                .stream()
-                .forEach(System.out::println);
+        for (Vehicle v:
+             vehicleList) {
+            System.out.println(v);
+        }
     }
 
     private static void repairVehicleList(List<Vehicle> vehicleList, MechanicService mechanicService) {
         vehicleList
                 .stream()
                 .forEach(vehicle -> {
-                    if (!mechanicService.isBroken(vehicle)) {
-                        System.out.println("Auto " + vehicle.getId() + " исправно");
-                    } else {
-                        System.out.println("Auto " + vehicle.getId() + " неисправно, чиним...");
-                        mechanicService.repair(vehicle);
-                    }
+                    showTechnicalCondition(vehicle, mechanicService);
                 });
 
         System.out.println("Теперь все транспортные средства исправны");
+    }
+
+    private static void showTechnicalCondition(Vehicle vehicle, MechanicService mechanicService) {
+        if (!mechanicService.isBroken(vehicle)) {
+            System.out.println("Auto " + vehicle.getId() + " исправно");
+        } else {
+            System.out.println("Auto " + vehicle.getId() + " неисправно, чиним...");
+            mechanicService.repair(vehicle);
+        }
     }
 
     private static void showVolkswagenVehicles(List<Vehicle> vehicleList) {

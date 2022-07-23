@@ -1,7 +1,6 @@
 package Service;
 
-import FileUtils.ReadFromFile;
-import FileUtils.WriteToFile;
+import FileUtils.FileUtils;
 import RandomizeUtils.Randomizer;
 import Vehicle.Vehicle;
 import Comparators.ComparatorByDefectCount;
@@ -39,11 +38,11 @@ public class MechanicService implements Fixer {
 
     @Override
     public void repair(Vehicle vehicle) {
-        List<String> list = ReadFromFile.readInfo("orders.csv");
+        List<String> list = FileUtils.readInfo("orders.csv");
         String regex = vehicle.getId() + ".*";
 
         list.removeIf(i -> i.matches(regex));
-        WriteToFile.writeListToFile(list, "orders.csv");
+        FileUtils.writeListToFile(list, "orders.csv");
     }
 
     @Override
@@ -90,7 +89,7 @@ public class MechanicService implements Fixer {
     }
 
     private static String getLineFromOrdersFile(Vehicle vehicle) {
-        List<String> list = ReadFromFile.readInfo("orders.csv");
+        List<String> list = FileUtils.readInfo("orders.csv");
         String regex = vehicle.getId() + ".*";
 
         for (int i = 0; i < list.size(); i++) {
@@ -105,7 +104,7 @@ public class MechanicService implements Fixer {
     private static void writeToFile(Vehicle vehicle, Map<String, Integer> map) {
         String line = getBreakLine(vehicle, map);
 
-        WriteToFile.writeLineToFile(line, "orders.csv");
+        FileUtils.writeLineToFile(line, "orders.csv");
     }
 
     private static String getBreakLine(Vehicle vehicle, Map<String, Integer> map) {

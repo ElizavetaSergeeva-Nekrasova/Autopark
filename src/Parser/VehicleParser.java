@@ -1,6 +1,6 @@
 package Parser;
 
-import FileUtils.ReadFromFile;
+import FileUtils.FileUtils;
 import Vehicle.Vehicle;
 import Vehicle.VehicleType;
 import Vehicle.Color;
@@ -15,7 +15,7 @@ import java.util.List;
 public class VehicleParser {
     private static final int NUMBER_OF_PARAMETERS_FOR_COMBUSTION_ENGINES = 12;
     public static List<Vehicle> loadVehicles(String vehiclesFile, List<VehicleType> vehicleTypeList) {
-        List<String> list = ReadFromFile.readInfo(vehiclesFile);
+        List<String> list = FileUtils.readInfo(vehiclesFile);
         List<Vehicle> vehiclesList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {

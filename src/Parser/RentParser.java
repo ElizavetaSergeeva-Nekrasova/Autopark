@@ -1,6 +1,6 @@
 package Parser;
 
-import FileUtils.ReadFromFile;
+import FileUtils.FileUtils;
 import Rent.Rent;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RentParser {
     public static List<Rent> loadRents(String rentsFile) {
-        List<String> list = ReadFromFile.readInfo(rentsFile);
+        List<String> list = FileUtils.readInfo(rentsFile);
         List<Rent> rentsList = new ArrayList<>();
 
         for (int i = 0; i < list.size(); i++) {

@@ -1,3 +1,8 @@
+package Service;
+
+import Vehicle.Color;
+import Vehicle.VehicleType;
+
 public class TechnicalSpecialist {
     public static final int LOWER_LIMIT_MANUFACTURE_YEAR = 1886;
 

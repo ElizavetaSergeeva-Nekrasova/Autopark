@@ -1,3 +1,7 @@
+package Service;
+
+import Vehicle.Vehicle;
+
 import java.util.Map;
 
 public interface Fixer {

@@ -1,3 +1,5 @@
+package Vehicle.Engine;
+
 public class GasolineEngine extends CombustionEngine{
     private static final String ENGINE_TYPE = "Gasoline";
 

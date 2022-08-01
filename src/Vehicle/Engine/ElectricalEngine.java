@@ -1,3 +1,8 @@
+package Vehicle.Engine;
+
+import Exceptions.NotVehicleException;
+import Service.TechnicalSpecialist;
+
 public class ElectricalEngine extends AbstractEngine{
     private double batteryCharge;
     private double electricityConsumptionPerKilometer;

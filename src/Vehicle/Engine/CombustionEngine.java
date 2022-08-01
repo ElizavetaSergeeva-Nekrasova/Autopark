@@ -1,3 +1,8 @@
+package Vehicle.Engine;
+
+import Exceptions.NotVehicleException;
+import Service.TechnicalSpecialist;
+
 public class CombustionEngine extends AbstractEngine{
     private double engineCapacity;
     private double fuelTankCapacity;

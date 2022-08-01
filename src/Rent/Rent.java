@@ -1,3 +1,5 @@
+package Rent;
+
 import java.util.Date;
 
 public class Rent {

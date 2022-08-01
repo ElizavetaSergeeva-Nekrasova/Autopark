@@ -1,3 +1,7 @@
+package Comparators;
+
+import Vehicle.Vehicle;
+
 import java.util.Comparator;
 
 public class ModelComparator implements Comparator<Vehicle> {

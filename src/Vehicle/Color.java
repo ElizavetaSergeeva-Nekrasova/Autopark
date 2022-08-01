@@ -1,3 +1,5 @@
+package Vehicle;
+
 public enum Color {
     Blue,
     White,

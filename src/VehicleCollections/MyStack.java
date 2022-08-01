@@ -1,3 +1,5 @@
+package VehicleCollections;
+
 public class MyStack<T> {
     private Object[] array;
     private int size;

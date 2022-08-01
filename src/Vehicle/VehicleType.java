@@ -1,3 +1,5 @@
+package Vehicle;
+
 import java.util.Objects;
 
 public class VehicleType {
